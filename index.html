@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEO — Streetwear DZ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jost:wght@200;300;400;500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #eef2f8;
+            --cream: #dde6f5;
+            --navy: #0d1b3e;
+            --blue: #1e3a6e;
+            --yellow: #f5c400;
+            --yellow2: #ffd740;
+            --muted: #5a729a;
+            --white: #f4f7fc;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        .cursor {
+            width: 10px;
+            height: 10px;
+            background: var(--yellow);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width .3s, height .3s, background .3s;
+        }
+
+        .cursor-ring {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--yellow);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform .18s, width .3s, height .3s, opacity .3s;
+            opacity: .6;
+        }
+
+        body:has(a:hover) .cursor,
+        body:has(button:hover) .cursor {
+            width: 14px;
+            height: 14px;
+            background: var(--yellow2);
+        }
+
+        body:has(a:hover) .cursor-ring,
+        body:has(button:hover) .cursor-ring {
+            width: 50px;
+            height: 50px;
+            opacity: .4;
+            border-color: var(--yellow2);
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 56px;
+            transition: background .4s, padding .3s;
+        }
+
+        nav.scrolled {
+            background: rgba(238, 242, 248, .95);
+            backdrop-filter: blur(12px);
+            padding: 16px 56px;
+            border-bottom: 2px solid var(--yellow);
+        }
+
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: .15em;
+            color: var(--navy);
+            text-decoration: none;
+            cursor: none;
+        }
+
+        .nav-logo span {
+            color: var(--yellow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--blue);
+            text-decoration: none;
+            cursor: none;
+            position: relative;
+            padding-bottom: 3px;
+            transition: color .3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--yellow);
+            transition: width .35s;
+        }
+
+        .nav-links a:hover {
+            color: var(--navy);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cart-btn {
+            background: var(--yellow);
+            color: var(--navy);
+            border: none;
+            font-family: 'Jost', sans-serif;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            padding: 10px 22px;
+            cursor: none;
+            transition: background .3s, transform .2s;
+        }
+
+        .cart-btn:hover {
+            background: var(--navy);
+            color: var(--yellow);
+            transform: translateY(-2px);
+        }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 56px 80px;
+            position: relative;
+        }
+
+        .hero-eyebrow {
+            font-size: .65rem;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            margin-bottom: 16px;
+            animation: fadeUp 1s ease .3s both;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(5rem, 9vw, 11rem);
+            line-height: .9;
+            color: var(--navy);
+            margin-bottom: 24px;
+            animation: fadeUp 1s ease .5s both;
+        }
+
+        .hero-title em {
+            color: var(--yellow);
+            font-style: normal;
+        }
+
+        .hero-desc {
+            font-size: .82rem;
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--muted);
+            max-width: 340px;
+            margin-bottom: 40px;
+            animation: fadeUp 1s ease .7s both;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 16px;
+            animation: fadeUp 1s ease .9s both;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: var(--yellow);
+            border: none;
+            font-family: 'Jost', sans-serif;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            padding: 16px 40px;
+            cursor: none;
+            transition: background .3s, transform .3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--yellow);
+            color: var(--navy);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+            font-family: 'Jost', sans-serif;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            padding: 16px 40px;
+            cursor: none;
+            transition: border-color .3s, color .3s, transform .3s;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+            transform: translateY(-2px);
+        }
+
+        .hero-right {
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1.2s ease .2s both;
+        }
+
+        .hero-tag {
+            position: absolute;
+            bottom: 40px;
+            left: -20px;
+            background: var(--yellow);
+            padding: 18px 28px;
+            border-left: 4px solid var(--navy);
+            animation: slideIn 1s ease 1.2s both;
+        }
+
+        .hero-tag p {
+            font-size: .6rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--navy);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .hero-tag strong {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            color: var(--navy);
+            letter-spacing: .08em;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            right: 56px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 1s ease 1.5s both;
+        }
+
+        .hero-scroll span {
+            font-size: .55rem;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--muted);
+            writing-mode: vertical-rl;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--yellow), transparent);
+            animation: scrollPulse 2s ease infinite;
+        }
+
+        /* MARQUEE */
+        .marquee-section {
+            background: var(--navy);
+            padding: 16px 0;
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            animation: marquee 18s linear infinite;
+            white-space: nowrap;
+        }
+
+        .marquee-item {
+            font-size: .6rem;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--bg);
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .marquee-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--yellow);
+            border-radius: 50%;
+        }
+
+        /* SECTION */
+        .section {
+            padding: 100px 56px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 56px;
+        }
+
+        .section-label {
+            font-size: .6rem;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 4vw, 4rem);
+            line-height: 1;
+            color: var(--navy);
+        }
+
+        .section-title em {
+            color: var(--yellow);
+            font-style: normal;
+        }
+
+        .section-link {
+            font-size: .65rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            cursor: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color .3s;
+        }
+
+        .section-link::after {
+            content: '→';
+            transition: transform .3s;
+        }
+
+        .section-link:hover {
+            color: var(--yellow);
+        }
+
+        .section-link:hover::after {
+            transform: translateX(6px);
+        }
+
+        /* PRODUCTS */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3px;
+        }
+
+        .product-card {
+            background: var(--white);
+            cursor: none;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img-wrap {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            background: var(--cream);
+            position: relative;
+        }
+
+        .product-img-wrap>div {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            transition: transform .7s;
+        }
+
+        .product-card:hover .product-img-wrap>div {
+            transform: scale(1.08);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--yellow);
+            color: var(--navy);
+            font-size: .55rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+        }
+
+        .product-badge.sale {
+            background: var(--navy);
+            color: var(--yellow);
+        }
+
+        .product-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(13, 27, 62, .95);
+            padding: 14px;
+            transform: translateY(100%);
+            transition: transform .4s;
+            display: flex;
+            gap: 8px;
+        }
+
+        .product-card:hover .product-actions {
+            transform: translateY(0);
+        }
+
+        .btn-add {
+            flex: 1;
+            background: var(--yellow);
+            color: var(--navy);
+            border: none;
+            font-family: 'Jost', sans-serif;
+            font-size: .6rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            padding: 12px;
+            cursor: none;
+            transition: background .3s;
+        }
+
+        .btn-add:hover {
+            background: var(--yellow2);
+        }
+
+        .btn-wish {
+            background: none;
+            border: 1px solid rgba(245, 196, 0, .4);
+            width: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: none;
+            font-size: .9rem;
+            color: var(--yellow);
+            transition: border-color .3s, background .3s;
+        }
+
+        .btn-wish:hover {
+            background: var(--yellow);
+            color: var(--navy);
+        }
+
+        .product-info {
+            padding: 18px 18px 22px;
+        }
+
+        .product-category {
+            font-size: .55rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+
+        .product-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.15rem;
+            letter-spacing: .06em;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .price-old {
+            color: var(--muted);
+            text-decoration: line-through;
+            font-size: .75rem;
+            font-weight: 400;
+            margin-right: 8px;
+        }
+
+        .price-new {
+            color: var(--yellow);
+        }
+
+        /* SPLIT */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 65vh;
+            overflow: hidden;
+        }
+
+        .split-img {
+            overflow: hidden;
+            background: var(--cream);
+        }
+
+        .split-img>div {
+            width: 100%;
+            height: 100%;
+            transition: transform .8s;
+        }
+
+        .split-section:hover .split-img>div {
+            transform: scale(1.04);
+        }
+
+        .split-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 72px;
+            background: var(--navy);
+        }
+
+        .split-content .section-label {
+            color: var(--yellow2);
+        }
+
+        .split-content .section-title {
+            color: var(--white);
+        }
+
+        .split-content p {
+            font-size: .82rem;
+            font-weight: 300;
+            line-height: 2;
+            color: rgba(238, 242, 248, .6);
+            margin: 24px 0 36px;
+            max-width: 380px;
+        }
+
+        .split-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 48px;
+            border-top: 1px solid rgba(245, 196, 0, .2);
+            padding-top: 36px;
+        }
+
+        .stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.6rem;
+            color: var(--yellow);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: .6rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: rgba(238, 242, 248, .35);
+        }
+
+        /* CATEGORIES */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 3px;
+            height: 680px;
+        }
+
+        .cat-card {
+            position: relative;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        .cat-card:first-child {
+            grid-row: 1/3;
+        }
+
+        .cat-card>div:first-child {
+            width: 100%;
+            height: 100%;
+            transition: transform .7s;
+        }
+
+        .cat-card:hover>div:first-child {
+            transform: scale(1.06);
+        }
+
+        .cat-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(13, 27, 62, .85) 0%, transparent 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 28px;
+        }
+
+        .cat-label {
+            font-size: .55rem;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .cat-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 10px;
+            letter-spacing: .05em;
+        }
+
+        .cat-arrow {
+            width: 36px;
+            height: 36px;
+            border: 2px solid rgba(245, 196, 0, .5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--yellow);
+            font-size: .85rem;
+            transition: background .3s, border-color .3s;
+        }
+
+        .cat-card:hover .cat-arrow {
+            background: var(--yellow);
+            border-color: var(--yellow);
+            color: var(--navy);
+        }
+
+        /* TESTIMONIAL */
+        .testimonial-section {
+            background: var(--cream);
+            padding: 100px 56px;
+            text-align: center;
+        }
+
+        .testimonial-quote {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.8rem, 3vw, 3.2rem);
+            line-height: 1.3;
+            color: var(--navy);
+            max-width: 800px;
+            margin: 0 auto 32px;
+        }
+
+        .testimonial-author {
+            font-size: .65rem;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            font-weight: 600;
+        }
+
+        .testimonial-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 36px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--muted);
+            cursor: none;
+            transition: background .3s, width .3s;
+        }
+
+        .dot.active {
+            background: var(--yellow);
+            width: 24px;
+            border-radius: 3px;
+        }
+
+        /* NEWSLETTER */
+        .newsletter-section {
+            padding: 90px 56px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .newsletter-form p {
+            font-size: .8rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 2px;
+        }
+
+        .email-input {
+            flex: 1;
+            background: var(--cream);
+            border: none;
+            border-bottom: 2px solid var(--navy);
+            padding: 14px 20px;
+            font-family: 'Jost', sans-serif;
+            font-size: .75rem;
+            color: var(--navy);
+            outline: none;
+            transition: border-color .3s;
+        }
+
+        .email-input::placeholder {
+            color: var(--muted);
+        }
+
+        .email-input:focus {
+            border-color: var(--yellow);
+        }
+
+        .newsletter-perks {
+            display: flex;
+            gap: 24px;
+            margin-top: 12px;
+        }
+
+        .perk {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .65rem;
+            letter-spacing: .1em;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .perk-icon {
+            color: var(--yellow);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--navy);
+            padding: 72px 56px 36px;
+            color: var(--bg);
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 56px;
+            padding-bottom: 56px;
+            border-bottom: 1px solid rgba(245, 196, 0, .15);
+        }
+
+        .footer-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.4rem;
+            letter-spacing: .15em;
+            color: var(--yellow);
+            margin-bottom: 16px;
+        }
+
+        .footer-tagline {
+            font-size: .75rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(238, 242, 248, .45);
+            max-width: 240px;
+            margin-bottom: 28px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(245, 196, 0, .25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(245, 196, 0, .5);
+            text-decoration: none;
+            font-size: .7rem;
+            cursor: none;
+            transition: border-color .3s, color .3s, background .3s;
+        }
+
+        .social-link:hover {
+            border-color: var(--yellow);
+            color: var(--navy);
+            background: var(--yellow);
+        }
+
+        .footer-col h4 {
+            font-size: .6rem;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            margin-bottom: 22px;
+            font-weight: 600;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-col a {
+            font-size: .75rem;
+            font-weight: 300;
+            color: rgba(238, 242, 248, .5);
+            text-decoration: none;
+            cursor: none;
+            transition: color .3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--yellow);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            font-size: .6rem;
+            letter-spacing: .12em;
+            color: rgba(238, 242, 248, .25);
+        }
+
+        .footer-bottom a {
+            color: rgba(238, 242, 248, .25);
+            text-decoration: none;
+            cursor: none;
+            transition: color .3s;
+        }
+
+        .footer-bottom a:hover {
+            color: var(--yellow);
+        }
+
+        /* ====== ORDER MODAL ====== */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 27, 62, .75);
+            backdrop-filter: blur(6px);
+            z-index: 500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-backdrop.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            width: min(96vw, 560px);
+            max-height: 92vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalIn .4s ease;
+        }
+
+        .modal-header {
+            background: var(--navy);
+            padding: 28px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            color: var(--yellow);
+            letter-spacing: .1em;
+        }
+
+        .modal-header p {
+            font-size: .65rem;
+            color: rgba(238, 242, 248, .6);
+            letter-spacing: .1em;
+            margin-top: 4px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--yellow);
+            font-size: 1.4rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+            transition: color .3s;
+        }
+
+        .modal-close:hover {
+            color: var(--white);
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+
+        .modal-article {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--cream);
+            padding: 16px;
+            margin-bottom: 28px;
+            border-left: 4px solid var(--yellow);
+        }
+
+        .modal-article-img {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(145deg, #1a3a7a, #0d1b3e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .modal-article-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            color: var(--navy);
+            letter-spacing: .05em;
+        }
+
+        .modal-article-price {
+            font-size: .8rem;
+            font-weight: 700;
+            color: var(--yellow);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: .6rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            background: var(--bg);
+            border: 2px solid transparent;
+            border-bottom: 2px solid rgba(30, 58, 110, .3);
+            padding: 13px 16px;
+            font-family: 'Jost', sans-serif;
+            font-size: .82rem;
+            color: var(--navy);
+            outline: none;
+            transition: border-color .3s;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--yellow);
+            background: var(--white);
+        }
+
+        .form-group input.error,
+        .form-group select.error {
+            border-color: #e53;
+        }
+
+        .form-group .err-msg {
+            font-size: .6rem;
+            color: #e53;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group .err-msg.show {
+            display: block;
+        }
+
+        .select-wrap {
+            position: relative;
+        }
+
+        .select-wrap::after {
+            content: '▾';
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .order-summary {
+            background: var(--navy);
+            color: var(--bg);
+            padding: 18px 20px;
+            margin: 8px 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-summary span {
+            font-size: .65rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: rgba(238, 242, 248, .55);
+        }
+
+        .order-summary strong {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--yellow);
+            letter-spacing: .06em;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--yellow);
+            color: var(--navy);
+            border: none;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: .15em;
+            padding: 18px;
+            cursor: pointer;
+            transition: background .3s, transform .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover {
+            background: var(--yellow2);
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:disabled {
+            background: var(--muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #orderSuccess {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        #orderSuccess .check {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        #orderSuccess h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--navy);
+            letter-spacing: .08em;
+            margin-bottom: 10px;
+        }
+
+        #orderSuccess p {
+            font-size: .8rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        @keyframes scrollPulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .3
+            }
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0)
+            }
+
+            to {
+                transform: translateX(-50%)
+            }
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(.97)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1)
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .8s ease, transform .8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: .15s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: .3s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: .45s;
+        }
+
+        /* TOAST */
+        #toast {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: var(--navy);
+            color: var(--yellow);
+            padding: 16px 28px;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform .4s, opacity .4s;
+            border-left: 4px solid var(--yellow);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ===== ORDER MODAL ===== -->
+    <div class="modal-backdrop" id="orderModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h2>Confirm Your Order</h2>
+                    <p id="modalSubtitle">Fill in your delivery details</p>
+                </div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-article">
+                    <div class="modal-article-img" id="modalIcon">👕</div>
+                    <div>
+                        <div class="modal-article-name" id="modalName">Article Name</div>
+                        <div class="modal-article-price">3,700 DA</div>
+                    </div>
+                </div>
+
+                <div id="orderForm">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="fullName" placeholder="Ex: Ahmed Benali">
+                        <div class="err-msg" id="errName">Please enter your full name.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Wilaya *</label>
+                        <div class="select-wrap">
+                            <select id="wilayaSelect" onchange="loadBaladias()">
+                                <option value="">— Choose a Wilaya —</option>
+                            </select>
+                        </div>
+                        <div class="err-msg" id="errWilaya">Please select your wilaya.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Baladiya *</label>
+                        <div class="select-wrap">
+                            <select id="baladiaSelect" disabled>
+                                <option value="">— Choose a Baladiya —</option>
+                            </select>
+                        </div>
+                        <div class="err-msg" id="errBaladia">Please select your baladiya.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="phone" placeholder="Ex: 0555123456" maxlength="10">
+                        <div class="err-msg" id="errPhone">Enter a valid Algerian number (05/06/07 + 8 digits).</div>
+                    </div>
+                    <div class="order-summary">
+                        <span>Total to pay on delivery</span>
+                        <strong>3,700 DA</strong>
+                    </div>
+                    <button class="btn-submit" id="submitBtn" onclick="submitOrder()">
+                        <span>🛍</span> Place Order
+                    </button>
+                    <div id="submitMsg"
+                        style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:12px;min-height:18px;">
+                    </div>
+                </div>
+
+                <div id="orderSuccess">
+                    <div class="check">✅</div>
+                    <h3>Order Confirmed!</h3>
+                    <p>Thank you! We received your order and will contact you soon on <strong
+                            id="confirmPhone"></strong> to confirm delivery.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== STORY MODAL ===== -->
+    <div class="modal-backdrop" id="storyModal" style="align-items:center;justify-content:center;">
+        <div class="modal" style="max-width:620px;">
+            <div class="modal-header" style="background:var(--navy);position:relative;overflow:hidden;">
+                <div
+                    style="position:absolute;right:-10px;top:-20px;font-family:'Bebas Neue',sans-serif;font-size:8rem;opacity:.06;color:var(--yellow);line-height:1;">
+                    CEO</div>
+                <div>
+                    <h2 style="font-size:1.8rem;">Our Story</h2>
+                    <p style="margin-top:6px;">The man behind the brand</p>
+                </div>
+                <button class="modal-close"
+                    onclick="document.getElementById('storyModal').classList.remove('open');document.body.style.overflow='';">✕</button>
+            </div>
+            <div class="modal-body" style="padding:40px;">
+
+                <!-- Founder card -->
+                <div
+                    style="display:flex;align-items:center;gap:20px;background:var(--navy);padding:20px 24px;margin-bottom:32px;border-left:4px solid var(--yellow);">
+                    <div
+                        style="width:60px;height:60px;background:linear-gradient(145deg,#2a5298,#f5c400);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;">
+                        👤</div>
+                    <div>
+                        <div
+                            style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--yellow);letter-spacing:.08em;">
+                            Founder & Creative Director</div>
+                        <div style="font-size:.75rem;color:rgba(238,242,248,.6);margin-top:4px;letter-spacing:.1em;">CEO
+                            Brand DZ · 16 years old · Algeria</div>
+                    </div>
+                </div>
+
+                <!-- Story paragraphs -->
+                <div style="display:flex;flex-direction:column;gap:22px;">
+                    <p style="font-size:.88rem;font-weight:300;line-height:1.95;color:var(--navy);">
+                        I'm a 16-year-old Algerian guy, and I started CEO Brand out of a simple desire — I wanted to
+                        build something, to make money, to prove to myself that I could create a real business from
+                        zero. That was the spark.
+                    </p>
+                    <p style="font-size:.88rem;font-weight:300;line-height:1.95;color:var(--navy);">
+                        But somewhere along the way, something changed. What started as a business move became a genuine
+                        passion. I fell in love with clothes, with fashion, with the way a design can say something
+                        without a single word. Now I don't just sell T-shirts — I think about every detail, every color,
+                        every line. The clothes became personal.
+                    </p>
+                    <p style="font-size:.88rem;font-weight:300;line-height:1.95;color:var(--navy);">
+                        CEO is just the beginning. I want to build more — more brands, more ideas, more businesses. But
+                        right now, I'm focused on making CEO something real, something Algerians are proud to wear.
+                    </p>
+                    <div
+                        style="background:var(--cream);border-left:4px solid var(--yellow);padding:18px 22px;margin-top:4px;">
+                        <p
+                            style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--navy);letter-spacing:.06em;line-height:1.4;">
+                            "My designs are my power. That's the one thing that's fully mine."</p>
+                    </div>
+                    <p style="font-size:.78rem;font-weight:400;line-height:1.8;color:var(--muted);">
+                        Started in Algeria. Built from scratch. Worn by the streets. — CEO Brand, 2026.
+                    </p>
+                </div>
+
+                <!-- CTA -->
+                <button class="btn-primary" style="width:100%;margin-top:32px;font-size:.7rem;padding:18px;"
+                    onclick="document.getElementById('storyModal').classList.remove('open');document.body.style.overflow='';document.getElementById('men').scrollIntoView({behavior:'smooth'});">
+                    Shop the Collection
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="#" class="nav-logo">CE<span>O</span></a>
+        <ul class="nav-links">
+            <li><a href="#men">Men</a></li>
+            <li><a href="#women">Women</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <div style="display:flex;gap:16px;align-items:center;">
+            <button class="cart-btn" onclick="document.getElementById('men').scrollIntoView({behavior:'smooth'})">Shop
+                Now</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-left">
+            <p class="hero-eyebrow">New Drop — SS 2026</p>
+            <h1 class="hero-title">WEAR<br>THE <em>STREET</em></h1>
+            <p class="hero-desc">Made in Algeria, built for the culture. CEO brings raw Algerian street energy into
+                every piece — no filters, no limits.</p>
+            <div class="hero-ctas">
+                <button class="btn-primary"
+                    onclick="document.getElementById('men').scrollIntoView({behavior:'smooth'})">Shop the Drop</button>
+                <button class="btn-outline"
+                    onclick="document.getElementById('storyModal').classList.add('open');document.body.style.overflow='hidden';">Our
+                    Story</button>
+            </div>
+            <div class="hero-scroll">
+                <div class="scroll-line"></div>
+                <span>Scroll</span>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div
+                style="width:100%;height:100%;background:linear-gradient(160deg,#1a3a7a 0%,#0d1b3e 40%,#08102a 100%);position:relative;overflow:hidden;">
+                <div
+                    style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:18rem;opacity:.04;font-family:'Bebas Neue',sans-serif;letter-spacing:-.05em;color:#f5c400;white-space:nowrap;">
+                    CEO</div>
+                <div
+                    style="position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,rgba(13,27,62,1),transparent);">
+                </div>
+                <div style="position:absolute;top:25%;left:50%;transform:translateX(-50%);font-size:7rem;opacity:.35;">
+                    🧢</div>
+            </div>
+            <div class="hero-tag">
+                <p>New Arrival</p>
+                <strong>CEO Oversized Tee</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-item">Made in DZ 🇩🇿 <span class="marquee-dot"></span></div>
+            <div class="marquee-item">Cash on Delivery <span class="marquee-dot"></span></div>
+            <div class="marquee-item">New Drop Every Month <span class="marquee-dot"></span></div>
+            <div class="marquee-item">Authentic Streetwear <span class="marquee-dot"></span></div>
+            <div class="marquee-item">SS 2026 Now Live <span class="marquee-dot"></span></div>
+            <div class="marquee-item">Free Delivery Above 5,000 DA <span class="marquee-dot"></span></div>
+            <div class="marquee-item">Made in DZ 🇩🇿 <span class="marquee-dot"></span></div>
+            <div class="marquee-item">Cash on Delivery <span class="marquee-dot"></span></div>
+            <div class="marquee-item">New Drop Every Month <span class="marquee-dot"></span></div>
+            <div class="marquee-item">Authentic Streetwear <span class="marquee-dot"></span></div>
+            <div class="marquee-item">SS 2026 Now Live <span class="marquee-dot"></span></div>
+        </div>
+    </div>
+
+    <!-- ===== MEN SECTION ===== -->
+    <section class="section" id="men" style="background:var(--bg);">
+        <div class="section-header reveal">
+            <div>
+                <p class="section-label">Men's Collection</p>
+                <h2 class="section-title">Men's <em>T-Shirts</em></h2>
+            </div>
+        </div>
+        <div class="products-grid">
+            <div class="product-card reveal">
+                <div class="product-img-wrap">
+                    <div style="background:linear-gradient(145deg,#2a5298,#1a3a7a);"><img src="https://files.cdn.printful.com/o/upload/bfl-image/f5/10333_l_collage%20vintage%20design%20.jpg" alt="CEO Oversized Tee" width="157px" height="210px"></div>
+                    <span class="product-badge">New</span>
+                    <div class="product-actions">
+                        <button class="btn-add" onclick="openModal('CEO Oversized Tee — Men','👕')">Order Now</button>
+                        <button class="btn-wish">♡</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Men · T-Shirt</p>
+                    <h3 class="product-name">CEO Oversized Tee</h3>
+                    <div class="product-price">3,700 DA</div>
+                </div>
+            </div>
+            <div class="product-card reveal reveal-delay-1">
+                <div class="product-img-wrap">
+                    <div style="background:linear-gradient(145deg,#0d1b3e,#1a3a7a);"><img src="https://files.cdn.printful.com/o/upload/bfl-image/f5/10333_l_collage%20vintage%20design%20.jpg" alt="CEO Black Logo Tee" width="157px" height="210px"></div>
+                    <span class="product-badge sale">Drop</span>
+                    <div class="product-actions">
+                        <button class="btn-add" onclick="openModal('CEO Black Logo Tee — Men','🖤')">Order Now</button>
+                        <button class="btn-wish">♡</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Men · T-Shirt</p>
+                    <h3 class="product-name">CEO Black Logo Tee</h3>
+                    <div class="product-price">3,700 DA</div>
+                </div>
+            </div>
+            <div class="product-card reveal reveal-delay-2">
+                <div class="product-img-wrap">
+                    <div style="background:linear-gradient(145deg,#3465b0,#1e3a6e);">💛</div>
+                    <div class="product-actions">
+                        <button class="btn-add" onclick="openModal('CEO Yellow Edition Tee — Men','💛')">Order
+                            Now</button>
+                        <button class="btn-wish">♡</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Men · T-Shirt</p>
+                    <h3 class="product-name">CEO Yellow Edition Tee</h3>
+                    <div class="product-price">3,700 DA</div>
+                </div>
+            </div>
+            <div class="product-card reveal reveal-delay-3">
+                <div class="product-img-wrap">
+                    <div style="background:linear-gradient(145deg,#1a3a7a,#0d2b6e);">🔵</div>
+                    <span class="product-badge">New</span>
+                    <div class="product-actions">
+                        <button class="btn-add" onclick="openModal('CEO Street Classic Tee — Men','🔵')">Order
+                            Now</button>
+                        <button class="btn-wish">♡</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Men · T-Shirt</p>
+                    <h3 class="product-name">CEO Street Classic Tee</h3>
+                    <div class="product-price">3,700 DA</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIVIDER BANNER -->
+    <div
+        style="background:var(--yellow);padding:22px 56px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.15em;color:var(--navy);">ALL
+            T-SHIRTS — 3,700 DA — CASH ON DELIVERY</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.15em;color:var(--navy);">🇩🇿
+            MADE IN DZ</span>
+    </div>
+
+    <!-- ===== WOMEN SECTION ===== -->
+    <section class="section" id="women" style="background:var(--cream);">
+        <div class="section-header reveal">
+            <div>
+                <p class="section-label">Women's Collection</p>
+                <h2 class="section-title">Women's <em>T-Shirts</em></h2>
+            </div>
+        </div>
+        <div class="products-grid">
+            <div class="product-card reveal">
+                <div class="product-img-wrap">
+                    <div style="background:linear-gradient(145deg,#3465b0,#2a5298);">🌸</div>
+                    <span class="product-badge">New</span>
+                    <div class="product-actions">
+                        <button class="btn-add" onclick="openModal('CEO Crop Tee — Women','🌸')">Order Now</button>
+                        <button class="btn-wish">♡</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Women · T-Shirt</p>
+                    <h3 class="product-name">CEO Crop Tee</h3>
+                    <div class="product-price">3,700 DA</div>
+                </div>
+            </div>
+            <div class="product-card reveal reveal-delay-1">
+                <div class="product-img-wrap">
+                    <div style="background:linear-gradient(145deg,#1a3a7a,#0d1b3e);">⭐</div>
+                    <span class="product-badge sale">Drop</span>
+                    <div class="product-actions">
+                        <button class="btn-add" onclick="openModal('CEO Star Logo Tee — Women','⭐')">Order Now</button>
+                        <button class="btn-wish">♡</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Women · T-Shirt</p>
+                    <h3 class="product-name">CEO Star Logo Tee</h3>
+                    <div class="product-price">3,700 DA</div>
+                </div>
+            </div>
+            <div class="product-card reveal reveal-delay-2">
+                <div class="product-img-wrap">
+                    <div style="background:linear-gradient(145deg,#2a5298,#1e3a6e);">🤍</div>
+                    <div class="product-actions">
+                        <button class="btn-add" onclick="openModal('CEO Oversized White Tee — Women','🤍')">Order
+                            Now</button>
+                        <button class="btn-wish">♡</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Women · T-Shirt</p>
+                    <h3 class="product-name">CEO Oversized White Tee</h3>
+                    <div class="product-price">3,700 DA</div>
+                </div>
+            </div>
+            <div class="product-card reveal reveal-delay-3">
+                <div class="product-img-wrap">
+                    <div style="background:linear-gradient(145deg,#0d2b6e,#1a3a7a);">💛</div>
+                    <span class="product-badge">New</span>
+                    <div class="product-actions">
+                        <button class="btn-add" onclick="openModal('CEO Yellow Drop Tee — Women','💛')">Order
+                            Now</button>
+                        <button class="btn-wish">♡</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Women · T-Shirt</p>
+                    <h3 class="product-name">CEO Yellow Drop Tee</h3>
+                    <div class="product-price">3,700 DA</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section id="about" style="display:grid;grid-template-columns:1fr 1fr;min-height:70vh;overflow:hidden;">
+        <div
+            style="background:linear-gradient(160deg,#1a3a7a 0%,#0d1b3e 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+            <div
+                style="font-size:14rem;opacity:.08;font-family:'Bebas Neue',sans-serif;color:#f5c400;position:absolute;">
+                CEO</div>
+            <div style="position:relative;text-align:center;">
+                <div style="font-size:5rem;margin-bottom:16px;">🇩🇿</div>
+                <div
+                    style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.3em;color:rgba(245,196,0,.7);">
+                    BORN IN DZ</div>
+            </div>
+        </div>
+        <div
+            style="display:flex;flex-direction:column;justify-content:center;padding:80px 72px;background:var(--navy);">
+            <p class="section-label" style="color:var(--yellow2);">About CEO Brand</p>
+            <h2
+                style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,4vw,4rem);line-height:1;color:var(--white);margin-bottom:28px;">
+                Who We <em style="color:var(--yellow);">Are</em></h2>
+            <p style="font-size:.85rem;font-weight:300;line-height:2;color:rgba(238,242,248,.65);margin-bottom:20px;">
+                CEO Brand is an Algerian streetwear label built from the ground up — no investors, no hype machine, just
+                real culture. We design T-shirts that speak to the DZ generation: bold, clean, and unapologetically
+                local.</p>
+            <p style="font-size:.85rem;font-weight:300;line-height:2;color:rgba(238,242,248,.65);margin-bottom:32px;">
+                For now we focus on one thing and do it right — <strong style="color:var(--yellow);">T-shirts at 3,700
+                    DA</strong>, delivered cash on delivery anywhere in Algeria. More products are coming. Stay tuned.
+            </p>
+            <div
+                style="background:rgba(245,196,0,.08);border-left:3px solid var(--yellow);padding:20px 24px;margin-bottom:32px;">
+                <p
+                    style="font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--yellow);margin-bottom:8px;font-weight:600;">
+                    Contact Us</p>
+                <a href="mailto:ceobranddz@gmail.com"
+                    style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--white);letter-spacing:.06em;text-decoration:none;">ceobranddz@gmail.com</a>
+            </div>
+            <div style="display:flex;gap:48px;border-top:1px solid rgba(245,196,0,.15);padding-top:32px;">
+                <div>
+                    <div
+                        style="font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--yellow);line-height:1;">
+                        58</div>
+                    <div
+                        style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(238,242,248,.35);margin-top:4px;">
+                        Wilayas</div>
+                </div>
+                <div>
+                    <div
+                        style="font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--yellow);line-height:1;">
+                        4K+</div>
+                    <div
+                        style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(238,242,248,.35);margin-top:4px;">
+                        Customers</div>
+                </div>
+                <div>
+                    <div
+                        style="font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--yellow);line-height:1;">
+                        100%</div>
+                    <div
+                        style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(238,242,248,.35);margin-top:4px;">
+                        DZ Made</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIAL -->
+    <div class="testimonial-section">
+        <div id="testimonialWrap">
+            <p class="testimonial-quote reveal" id="quoteText">"CEO hits different. Got my hoodie in 2 days and the
+                quality is unreal for the price."</p>
+            <p class="testimonial-author reveal" id="quoteAuthor">— Yacine B., Alger</p>
+        </div>
+        <div class="testimonial-dots">
+            <div class="dot active" onclick="setTestimonial(0)"></div>
+            <div class="dot" onclick="setTestimonial(1)"></div>
+            <div class="dot" onclick="setTestimonial(2)"></div>
+        </div>
+    </div>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter-section">
+        <div class="reveal">
+            <p class="section-label">Stay in the Loop</p>
+            <h2 class="section-title">Get <em>Early</em> Access</h2>
+        </div>
+        <div class="reveal reveal-delay-1">
+            <div class="newsletter-form">
+                <p>Be first to know about new drops, collabs, and exclusive discounts. Drop your email and we'll handle
+                    the rest.</p>
+                <div class="input-row">
+                    <input type="email" class="email-input" placeholder="your@email.com" id="emailInput">
+                    <button class="btn-primary" onclick="handleSubscribe()">Join</button>
+                </div>
+                <div id="subMsg"
+                    style="font-size:.7rem;color:var(--yellow);min-height:18px;margin-top:8px;letter-spacing:.1em;font-weight:600;">
+                </div>
+                <div class="newsletter-perks">
+                    <div class="perk"><span class="perk-icon">✦</span> Early Drops</div>
+                    <div class="perk"><span class="perk-icon">✦</span> Exclusive Deals</div>
+                    <div class="perk"><span class="perk-icon">✦</span> No Spam</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-top">
+            <div>
+                <div class="footer-brand">CEO</div>
+                <p class="footer-tagline">Algerian streetwear for the streets. No luxury, no pretense — just culture.
+                </p>
+                <div class="footer-socials">
+                    <a href="#" class="social-link">IG</a>
+                    <a href="#" class="social-link">FB</a>
+                    <a href="#" class="social-link">TK</a>
+                    <a href="#" class="social-link">YT</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#">Men</a></li>
+                    <li><a href="#">Women</a></li>
+                    <li><a href="#">Accessories</a></li>
+                    <li><a href="#">Sale</a></li>
+                    <li><a href="#">New Drops</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#men">Men's T-Shirts</a></li>
+                    <li><a href="#women">Women's T-Shirts</a></li>
+                    <li><a href="#about">About CEO</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:ceobranddz@gmail.com">ceobranddz@gmail.com</a></li>
+                    <li><a href="#">Delivery Info</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 CEO Streetwear DZ. All rights reserved.</span>
+            <div style="display:flex;gap:24px;">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="toast"></div>
+
+    <script>
+        // ===== EMAILJS CONFIG =====
+        // Replace these with your actual EmailJS credentials:
+        const EMAILJS_SERVICE_ID = 'service_ceo brand';
+        const EMAILJS_TEMPLATE_ID = 'template_2uyw5u6';
+        const EMAILJS_PUBLIC_KEY = '0imWxwALdUs8R8I1A';
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+        // ===== ALGERIA DATA =====
+        const ALGERIA = {
+            "01 - Adrar": ["Adrar", "Aougrout", "Aoulef", "Bordj Badji Mokhtar", "Charouine", "Fenoughil", "In Zghmir", "Metarfa", "Ouled Ahmed Timmi", "Reggane", "Sali", "Sebaa", "Tamentit", "Tamest", "Timiaouine", "Tinerkouk", "Tsabit", "Zaouiet Kounta"],
+            "02 - Chlef": ["Abou El Hassan", "Ain Merane", "Beni Haoua", "Breira", "Chlef", "Chettia", "El Hadjadj", "El Karimia", "Harchoun", "Herenfa", "Labiod Medjadja", "Moussadek", "Oued Fodda", "Oued Goussine", "Oued Sly", "Ouled Abbes", "Ouled Ben Abdelkader", "Ouled Fares", "Sendjas", "Sidi Abderrahmane", "Sobha", "Taougrite", "Talassa", "Tenes", "Zeboudja"],
+            "03 - Laghouat": ["Aflou", "Ain Mahdi", "Ain Sidi Ali", "Benchohra", "Brida", "El Assafia", "El Ghicha", "El Houaita", "Gueltat Sidi Saad", "Hassi Delaa", "Hassi R'Mel", "Kheneg", "Laghouat", "Oued Morra", "Oued M'Zi", "Sebgag", "Sidi Bouzid", "Sidi Makhlouf", "Tadjemout", "Tadjrouna", "Taouiala", "Taourirt Mâamer"],
+            "04 - Oum El Bouaghi": ["Ain Babouche", "Ain Beida", "Ain El Bordj", "Ain Fakroun", "Ain Kercha", "Ain M'lila", "Ain Zitoun", "Behir Chergui", "Bir Chouhada", "Dhalaa", "El Amiria", "El Belala", "El Djazia", "El Fedjoudj", "F'Kirina", "Hanchir Toumghani", "Ksar Sbahi", "Meskiana", "Oued Nini", "Oum El Bouaghi", "Rahia", "Sigus", "Souk Naamane", "Zorg"],
+            "05 - Batna": ["Arris", "Ain Djasser", "Ain Touta", "Azil Abdelkader", "Batna", "Barika", "Bouzina", "Boumagueur", "Chemora", "Chir", "Djerma", "El Hassi", "El Madher", "Fesdis", "Ghassira", "Gosbat", "Hidoussa", "Ichemoul", "Inoughissen", "Ksar Bellezma", "Larbaa", "Lazrou", "Lemsane", "Maafa", "Menaa", "Merouana", "Metkoussa", "Miad", "N'gaous", "Oued Chaaba", "Oued El Ma", "Ouyoun El Assafir", "Ras El Aioun", "Seriana", "Seggana", "Tazoult", "Teniet El Abed", "Tilatou", "Timgad", "Tkout", "T'kout", "Zanat El Beida"],
+            "06 - Béjaïa": ["Akbou", "Amizour", "Aokas", "Barbacha", "Béjaïa", "Beni Djellil", "Beni Ksila", "Beni Maouche", "Beni Mellikeche", "Boukhlifa", "Chemini", "Darguina", "Draa El Kaid", "El Kseur", "Feraoun", "Ighil Ali", "Ighram", "Kherrata", "Melbou", "Oued Ghir", "Seddouk", "Sidi Aich", "Souk El Tenine", "Taourirt Ighil", "Taskriout", "Tichy", "Tifra", "Tinebdar", "Tichy", "Timezrit"],
+            "07 - Biskra": ["Ain Naga", "Ain Zaatout", "Biskra", "Bordj Ben Azzouz", "Chetma", "Djemorah", "Doucen", "El Feidh", "El Ghrous", "El Hadjeb", "El Haouch", "El Kantara", "El Outaya", "Foughala", "Lioua", "M'Chouneche", "Meziraa", "Mkhachba", "Oued Djellal", "Ras El Miaad", "Sidi Khaled", "Sidi Okba", "Tolga", "Zeribet El Oued"],
+            "08 - Béchar": ["Abadla", "Ain Ourir", "Béchar", "Beni Abbes", "Beni Ikhlef", "Boukais", "El Ouata", "Erg Ferradj", "Igli", "Kenadsa", "Lahmar", "Meridja", "Moghar", "Ouled Khoudir", "Recheig", "Taghit", "Tamtert", "Timoudi"],
+            "09 - Blida": ["Ain Romana", "Avocats", "Ben Khellil", "Blida", "Bouarfa", "Boufarik", "Bougara", "Bouinan", "Chebli", "Chiffa", "El Affroun", "Guerrouaou", "Hammam Melouane", "Larbaa", "Meftah", "Mouzaia", "Oued Djer", "Ouled Slama", "Soumaa"],
+            "10 - Bouira": ["Ain Bessem", "Ain El Hadjar", "Ain Turk", "Ait Laaziz", "Ait Mansour", "Ait Muzem", "Bechloul", "Bir Ghbalou", "Bordj Okhriss", "Bouira", "Bouderbala", "Chorfa", "Dechmia", "Dirrah", "El Adjiba", "El Asnam", "El Hakimia", "El Hachimia", "El Khabouzia", "El Mkhatria", "Guerrouma", "Haizer", "Hanif", "Kadiria", "Lakhdaria", "M'Chedallah", "Maamora", "Maala", "Ouled Rached", "Raouraoua", "Ridane", "Saharidj", "Sour El Ghozlane", "Taguedit", "Taghzout", "Zbarbar"],
+            "11 - Tamanrasset": ["Abalessa", "Ain Salah", "Ain Guezzam", "Foggaret Ezzaouia", "Ideles", "In Amguel", "In Guezzam", "In Salah", "Tamanrasset", "Tazrouk", "Tin Zaouatine"],
+            "12 - Tébessa": ["Ain Zerga", "Bir Dheheb", "Bir El Ater", "Bir Mokadem", "Boukhadra", "Cheria", "El Aouinet", "El Kouif", "El Ma Labiod", "El Meridj", "El Ogla", "El Ogla El Malha", "Ferkane", "Hammamet", "Morsott", "Negrine", "Ouenza", "Safsaf El Ouesra", "Stah Guentis", "Tébessa", "Thlidjene"],
+            "13 - Tlemcen": ["Ain Fezza", "Ain Ghoraba", "Ain Kebira", "Ain Nehala", "Ain Tallout", "Ain Youcef", "Azails", "Bab El Assa", "Beni Bahdel", "Beni Boussaid", "Beni Khellad", "Beni Mester", "Beni Ouarsous", "Beni Saf", "Beni Snous", "Bouhlou", "Chetouane", "Dar Yaghmouracene", "Djebala", "El Gor", "El Fehoul", "Fellaoucene", "Fillaoussene", "Ghazaouet", "Hammam Boughrara", "Hennaya", "Honaine", "Maghnia", "Mansourah", "Marsa Ben M'Hidi", "Ndroma", "Nedroma", "Ouled Mimoun", "Oued Lakhdar", "Remchi", "Sebdou", "Sidi Abdelli", "Sidi Djillali", "Sidi Medjahed", "Souahlia", "Souk Thlata", "Tienet", "Tlemcen"],
+            "14 - Tiaret": ["Ain Bouchekif", "Ain Deheb", "Ain El Hadid", "Ain Kermes", "Ain Thrid", "Ain Zarit", "Bougara", "Dahmouni", "Djebilet Rosfa", "Djillali Ben Amar", "Dousr", "El Ghomri", "El Hacaiba", "El Kheiter", "El Mesrane", "Faidja", "Frenda", "Guertoufa", "Hamadia", "Ksar Chellala", "Mahdia", "Mechraa Sfa", "Mehona", "Medrissa", "Mellakou", "Nadorah", "Oued Lilli", "Rahouia", "Rahouia", "Sidi Abdelghani", "Sidi Ali Mellal", "Sidi Bakhti", "Sidi Hosni", "Sougueur", "Tagdemt", "Tafraoui", "Tiaret", "Tidda", "Tousnina", "Zmalet El Emir Abdelkader"],
+            "15 - Tizi Ouzou": ["Abi Youcef", "Ait Aggouacha", "Ait Aissa Mimoun", "Ait Boumahdi", "Ait Chafaa", "Ait Khelili", "Ait Mahmoud", "Ait Oumalou", "Ait Toudert", "Ait Yahia", "Ait Yahia Moussa", "Ait Zaim", "Azeffoun", "Beni Aissi", "Beni Yenni", "Beni Zmenzer", "Boghni", "Boudjima", "Bouzeguene", "Draa Ben Khedda", "Draa El Mizan", "Frikat", "Idjeur", "Iferhounene", "Iflissen", "Illilten", "Ilmaten", "Irdjen", "Larbaa Nath Irathen", "Maatkas", "Makouda", "Mekla", "Mizrana", "Ouadhia", "Ouaguenoun", "Sidi Namane", "Souk El Had", "Tigzirt", "Timizart", "Tirmitine", "Tizi Ghenif", "Tizi N'Tlata", "Tizi Ouzou", "Tizi Rached", "Yakouren", "Yatafen", "Zekri"],
+            "16 - Alger": ["Ain Benian", "Ain Taya", "Bab El Oued", "Bab Ezzouar", "Bachdjerrah", "Baraki", "Ben Aknoun", "Beni Messous", "Bir Mourad Rais", "Bir Touta", "Birkhadem", "Bouzareah", "Casbah", "Cheraga", "Dar El Beida", "Dely Ibrahim", "Douera", "Draria", "El Achour", "El Biar", "El Harrach", "El Madania", "El Marsa", "El Mohammadia", "Hammamet", "Heraoua", "Hussein Dey", "Khraicia", "Kouba", "Les Eucalyptus", "Mahelma", "Mohamed Belouizdad", "Mohammadia", "Oued Koriche", "Oued Smar", "Ouled Chebel", "Ouled Fayet", "Rahmania", "Rais Hamidou", "Reghaïa", "Rouiba", "Saoula", "Sidi M'Hamed", "Souidania", "Staoueli", "Tessala El Merdja", "Zeralda"],
+            "17 - Djelfa": ["Aïn El Ibel", "Aïn Maabed", "Aïn Oussera", "Ain Chouhada", "Birine", "Bouira Lahdab", "Charef", "Dar Chioukh", "Deldoul", "Djelfa", "Douis", "El Guedid", "El Idrissia", "El Kherba", "El Khemis", "Faidh El Botma", "Had Sahary", "Hassi Bahbah", "Hassi El Euch", "Hassi Fedoul", "Messaad", "Moudjbara", "M'Liliha", "Oum Laadham", "Sed Rahal", "Selmana", "Sidi Baizid", "Sidi Ladjal", "Tadmit", "Zaafrane", "Zaccar"],
+            "18 - Jijel": ["Ain Makhlouf", "Aouana", "Beni Yadjis", "Bordj T'har", "Chahna", "Chekfa", "Djimla", "El Aouana", "El Ancer", "El Milia", "Emir Abdelkader", "Eraguene", "Ghebala", "Jijel", "Kaous", "Kemir", "Kheiri Oued Adjoul", "Ouadjana", "Ouled Rabah", "Selma Ben Ziada", "Settara", "Sidi Abdelaziz", "Sidi Maarouf", "Taher", "Texenna", "Ziama Mansouriah"],
+            "19 - Sétif": ["Ain Abessa", "Ain Azel", "Ain El Kebira", "Ain Legradj", "Ain Oulmene", "Ain Roua", "Ain Sebt", "Ain Trik", "Ait Naoual Mezada", "Amoucha", "Babor", "Bazer Sakra", "Belaa", "Beni Aziz", "Beni Chebana", "Beni Fouda", "Beni Hocine", "Beni Mouhli", "Bir El Arch", "Bir Haddada", "Bouandas", "Bougaa", "Boutaleb", "Bir Arram", "Dehamcha", "Djemila", "El Eulma", "El Ouricia", "El Ouldja", "Guenzet", "Guidjel", "Hammam Guergour", "Hammam Soukhna", "Hamma", "Ksar El Abtal", "Maaouia", "Maouaklane", "Mezloug", "Ouled Addouane", "Ouled Sabor", "Ouled Sidi Ahmed", "Oued El Barad", "Ras El Ma", "Rasfa", "Robbah", "Saleh Bey", "Serdj El Ghoul", "Sétif", "Tachouda", "Talaifacene", "Taya", "Tizi N'Bechar"],
+            "20 - Saïda": ["Ain El Hadjar", "Ain Sekhouna", "Ain Soltane", "Doui Thabet", "El Hassasna", "El Houanet", "Maamoun", "Moulay Larbi", "Ouled Brahim", "Ouled Khaled", "Rebahia", "Saida", "Sidi Ahmed", "Sidi Amar", "Tircine", "Youb"],
+            "21 - Skikda": ["Ain Bouziane", "Ain Cherchar", "Ain Kechra", "Azzaba", "Bekkouche Lakhdar", "Ben Azzouz", "Beni Bechir", "Beni Zid", "Cheraia", "Collo", "El Harrouch", "El Hadaiek", "Emdjez Edchich", "Erraguene", "Es Sebt", "Filfila", "Hammadi Krouma", "Kerkera", "Oued Zehour", "Oum Toub", "Ouled Attia", "Oumache", "Ramdane Djamel", "Salah Bouchaour", "Sidi Mezghiche", "Skikda", "Tamalous", "Zerdazas", "Zitouna"],
+            "22 - Sidi Bel Abbès": ["Ain Adden", "Ain El Berd", "Ain Kada", "Ain Tindamine", "Amarnas", "Aïn Tindamine", "Benachiba Chelia", "Bir El Hammam", "Boudjebha El Bordj", "Chetouane", "Dhaya", "El Hachem", "Hassi Dahou", "Hassi Zehana", "Lamtar", "Makedra", "Marhoum", "Merine", "Mezaourou", "Mostafa Ben Brahim", "Moulay Slissen", "Oued Sebaa", "Oued Taourira", "Ras El Ma", "Redjem Demouche", "Sfissef", "Sidi Bel Abbès", "Sidi Brahim", "Sidi Chaib", "Sidi Daho Des Zairs", "Sidi Hamadouche", "Sidi Khaled", "Sidi Lahcene", "Tabia", "Telagh", "Tessala", "Tilmouni", "Zerouala"],
+            "23 - Annaba": ["Ain El Berda", "Annaba", "Berrahal", "Chetaïbi", "Cheurfa", "Chorfa", "El Bouni", "El Eulma", "El Hadjar", "Eulma", "Oued El Aneb", "Seraidi", "Sidi Amar", "Treat"],
+            "24 - Guelma": ["Ain Ben Beida", "Ain Hessainia", "Ain Larbi", "Ain Makhlouf", "Ain Reggada", "Ain Sandel", "Bendjerrah", "Belkheir", "Bou Hamdane", "Bouati Mahmoud", "Bouhachana", "Boumahra Ahmed", "Dahouara", "Djebala Khemissa", "Guelaat Bou Sbaa", "Guelma", "Hammam Debagh", "Hammam Maskhoutine", "Héliopolis", "Khezara", "Medjez Amar", "Medjez Sfa", "Nechmeya", "Oued Cheham", "Oued Fragha", "Oued Zenati", "Ras El Agba", "Roknia", "Sellaoua Announa", "Tamlouka"],
+            "25 - Constantine": ["Ain Abid", "Ain Smara", "Beni Hamidane", "Constantine", "El Khroub", "Hamma Bouziane", "Ibn Badis", "Ibn Ziad", "Messaoud Boudjriou", "Ouled Rahmoune", "Zighoud Youcef"],
+            "26 - Médéa": ["Ain Boucif", "Ain Ouksir", "Ain Oussara", "Aziz", "Berrouaghia", "Boghari", "Bouchrahil", "Bou Aiche", "Bouaichoune", "Bouira", "Chahbounia", "Cheniguel", "Derrag", "Djouab", "Draa Essamar", "El Azizia", "El Batan", "El Guelb El Kebir", "El Hamdania", "El Omaria", "Hannacha", "Kef Lakhdar", "Ksar El Boukhari", "Maghraoua", "Medjbar", "Médéa", "Mezghenna", "Mihoub", "Meftaha", "Oum El Djalil", "Ouled Antar", "Ouled Bouachra", "Ouled Deide", "Ouled Hellal", "Ouled M'Barek", "Rebaia", "Rive", "Saneg", "Sedraia", "Si Mahdjoub", "Sidi Damed", "Sidi Naamane", "Sidi Rabie", "Sidi Ziane", "Souaghi", "Tablat", "Tafraout", "Tamesna", "Tizi Mahdi", "Zoubiria"],
+            "27 - Mostaganem": ["Achaacha", "Ain Boudinar", "Ain Nouissy", "Ain Sidi Cherif", "Ain Tedles", "Bouguirat", "El Hassiane", "Fornaka", "Hadjadj", "Hassi Mameche", "Kheir Eddine", "Mansourah", "Mazagran", "Mesra", "Mostaganem", "Nekmaria", "Oued El Kheir", "Ouled Boughalem", "Ouled Maallah", "Sidi Ali", "Sidi Belatar", "Sidi Lakhdar", "Souaflia", "Stidia", "Touahria", "Zeghaia"],
+            "28 - M'Sila": ["Ain El Hadjel", "Ain El Melh", "Ain Rich", "Belaiba", "Ben Srour", "Berhoum", "Bou Saada", "Bouti Sayah", "Chellal", "Dehahna", "Djebel Messaad", "El Hamel", "El Houamed", "Hammam Dhalaa", "Khoubana", "Khettouti Sed El Djir", "Maadid", "M'Cif", "M'Sila", "Magra", "Medjedel", "Mezdour", "Mrrara", "Ouanougha", "Ouled Addi Guebala", "Ouled Atia", "Ouled Derradj", "Ouled Mansour", "Ouled Sidi Ibrahim", "Oultene", "Sidi Aissa", "Sidi Ameur", "Sidi M'Hamed", "Sidi Rai", "Slim", "Souamaa", "Tamsa", "Tarmount"],
+            "29 - Mascara": ["Ain Ferah", "Ain Fares", "Ain Fras", "Ain Frass", "Aouf", "Bou Hanifia", "Chorfa", "El Bordj", "El Ghomri", "El Guettana", "El Hachem", "El Keurt", "El Menaouer", "Ferraguig", "Froha", "Ghomri", "Ghriss", "Hacine", "Khalouia", "Makdha", "Mascara", "Matemore", "Mohammadia", "Moctacem", "Nesmoth", "Oggaz", "Oued El Abtal", "Oued Taria", "Ras El Ain", "Sehailia", "Sidi Abdeldjabar", "Sidi Boussaid", "Sidi Kada", "Sig", "Tighennif", "Tizi", "Zahana", "Zelamta"],
+            "30 - Ouargla": ["Ain Beida", "El Borma", "El Hadjira", "Goug Maammar", "Hassi Messaoud", "In Amenas", "Megarine", "N'Goussa", "Nezla", "Ouargla", "Rouissat", "Sidi Khouiled", "Tebesbest", "Taibet", "Temacine", "Touggourt", "Zaouia El Abidia"],
+            "31 - Oran": ["Ain El Berd", "Ain El Turk", "Ain Kerma", "Ain Turk", "Arzew", "Ben Freha", "Bethioua", "Bir El Djir", "Bousfer", "Boufatis", "Boutlelis", "Es Senia", "El Kerma", "El Ancor", "Gdyel", "Hassi Ben Okba", "Hassi Mefsoukh", "Mers El Kébir", "Messerghine", "Misserghine", "Oran", "Oued Tlelat", "Sidi Benyebka", "Sfissifa", "Sidi Chahmi", "Tafraoui"],
+            "32 - El Bayadh": ["Ain El Orak", "Brezina", "Chellala", "El Abiodh Sidi Cheikh", "El Bayadh", "El Bnoud", "Ghassoul", "Kef El Ahmar", "Krakda", "Mehara", "Rogassa", "Sidi Ameur", "Sidi Slimane", "Sidi Tifour", "Stitten", "Tousmouline"],
+            "33 - Illizi": ["Bordj El Haoues", "Deb Deb", "Illizi", "In Amenas", "In Guezzam"],
+            "34 - Bordj Bou Arréridj": ["Ain Taghrout", "Ain Tesra", "Aïn Taghrout", "Belimour", "Bendoukha", "Bir Kasdali", "Bordj Bou Arréridj", "Bordj Ghdir", "Bordj Zemoura", "Colla", "Djaafra", "El Anseur", "El Hamadia", "El Main", "El Ach", "Ghilassa", "Hasnaoua", "Khelil", "Ksour", "Mansoura", "Medjana", "Ouled Dahmane", "Ouled Ibrahim", "Ouled Sidi Brahim", "Ras El Oued", "Ravine", "Sidi Embarek", "Taglait", "Tefreg", "Teniet En Nasr", "Tixter"],
+            "35 - Boumerdès": ["Afir", "Ain Taya", "Ammal", "Baghlia", "Beni Amrane", "Boumerdès", "Boudouaou", "Boudouaou El Bahri", "Boumerdes", "Boundoukha", "Chabet El Ameur", "Corso", "Dellys", "Djinet", "El Kharrouba", "Hamadi", "Issers", "Khemis El Khechna", "Leghata", "Larbatache", "Naciria", "Ouled Aissa", "Ouled Hedadj", "Ouled Moussa", "Si Mustapha", "Souk El Had", "Taourga", "Thenia", "Tidjelabine", "Zemmouri"],
+            "36 - El Tarf": ["Ain El Assel", "Ain Kerma", "Besbes", "Bouteldja", "Chebaita Mokhtar", "Cheffia", "Dréan", "El Aioun", "El Kala", "El Tarf", "Hammam Beni Salah", "Lac des Oiseaux", "Oum Teboul", "Raml Souk", "Zerizer", "Zitouna"],
+            "37 - Tindouf": ["Oum El Assel", "Tindouf"],
+            "38 - Tissemsilt": ["Ain Bouchekif", "Ain Dzarit", "Ain Lanacer", "Ain Oulmane", "Ammari", "Bordj El Emir Abdelkader", "Boucaid", "Khemisti", "Lazharia", "Lardjem", "Layoune", "Maasem", "Melaab", "Ouled Bessem", "Sidi Abed", "Sidi Boutouchent", "Sidi Lantri", "Sidi Slimane", "Theniet El Had", "Tissemsilt", "Youssoufia"],
+            "39 - El Oued": ["Bayadha", "Beni Guecha", "Djamaa", "Douar El Ma", "El Oued", "El Mghair", "El Ogla", "Ghamra", "Guemmar", "Hassi Khalifa", "Kouinine", "Mih Ouansa", "Nakhla", "Oum Touyour", "Reguiba", "Robbah", "Sidi Aoun", "Still", "Taghzout", "Taleb Larbi", "Trifaoui", "Tendla"],
+            "40 - Khenchela": ["Ain Touila", "Babar", "Bouhmama", "Chelia", "El Hamma", "El Mahmel", "El Oueldja", "Ensigha", "Kais", "Khenchela", "Khirane", "M'Sara", "Ouled Rechache", "Remila", "Tamza", "Taouziant", "Yabous"],
+            "41 - Souk Ahras": ["Ain Soltane", "Ain Zana", "Bir Bou Haouch", "Dréa", "El Ksar", "Haddada", "Hammam Debagh", "Khedara", "Khemissa", "Leoueldja", "M'Daourouch", "Medjez Sfa", "Merahna", "Oued Keberit", "Ouled Driss", "Oum El Adhaim", "Ragouba", "Safel El Ouidane", "Sedrata", "Sidi Fredj", "Souk Ahras", "Taoura", "Tiffech", "Terraguelt", "Tifech", "Zaarouria"],
+            "42 - Tipaza": ["Ain Tagourait", "Attatba", "Beni Milleuk", "Bouharoun", "Bou Ismail", "Cherchell", "Damous", "Douaouda", "Fouka", "Gouraya", "Hadjout", "Hamr Ain", "Khelidja", "Kolea", "Larhat", "Marengo", "Meurad", "Menaceur", "Nador", "Oued El Alleug", "Sidi Amar", "Sidi Ghiles", "Sidi Rached", "Sidi Semiane", "Tipaza", "Zéralda"],
+            "43 - Mila": ["Ahmed Rachedi", "Ain Beida Harriche", "Ain Mellouk", "Ain Tine", "Amira Arras", "Benyahia Abderrahmane", "Bouhatem", "Chelghoum Laid", "Chigara", "Dehamcha", "Djerzaria", "El Ayadi Barbes", "El Mechira", "Elayadi Barbes", "Ferdjioua", "Grarem Gouga", "Hamala", "Mila", "Oued Athmenia", "Oued El Adjem", "Oued Endja", "Oued Seguen", "Ouedjane", "Rouached", "Sidi Khelifa", "Sidi Merouane", "Tadjenanet", "Tassadane Haddada", "Teleghma", "Terrai Bainen", "Tessala Menjel", "Tiberguent", "Zeghaia"],
+            "44 - Aïn Defla": ["Ain Boucif", "Ain Defla", "Ain Lechiekh", "Ain Soltane", "Ain Torki", "Bathia", "Ben Allal", "Birbouche", "Bir Ould Khelifa", "Boumedfaa", "Bourached", "Djelida", "Djendel", "El Abadia", "El Amra", "El Attaf", "El Hassania", "El Hoceinia", "Hammam Righa", "Jendel", "Khemis Miliana", "Mekhatria", "Miliana", "Oued Chorfa", "Oued Djemaa", "Oued El Djemaa", "Rouina", "Sidi Lakhdar", "Tarik Ibn Ziad", "Tiberkanine", "Tiliouanet"],
+            "45 - Naâma": ["Ain Ben Khelil", "Ain Sefra", "Assela", "El Biodh", "Kasdir", "Mecheria", "Mogheul", "Naama", "Sfissifa", "Tiout"],
+            "46 - Aïn Témouchent": ["Ain El Arba", "Ain Kihal", "Ain Laloui", "Ain Temouchent", "Ain Tolba", "Aoubelil", "Aoubellil", "Beni Saf", "Bouzedjar", "Chaabat El Leham", "El Amria", "El Emir Abdelkader", "El Malah", "El Messaid", "Hammam Bou Hadjar", "Hassi El Ghella", "Ouled Boudjemaa", "Ouled Kihal", "Oulhaça El Gheraba", "Sidi Ben Adda", "Sidi Boumediene", "Sidi Safi", "Tamzoura", "Terga"],
+            "47 - Ghardaïa": ["Berriane", "Bounoura", "Daya Ben Dahoua", "El Atteuf", "El Guerrara", "Ghardaïa", "Hassi El Fedoul", "Hassi Gara", "Mansoura", "Metlili", "Sebseb", "Zelfana"],
+            "48 - Relizane": ["Ain Tarik", "Ammi Moussa", "Beni Dergoun", "Beni Zentis", "Belassel Bouzegza", "Dar Ben Abdellah", "El Hamadna", "El Hassi", "El Matmar", "El Ouldja", "Fillaoussene", "Hamri", "Hillil", "Kheredine", "Lahlef", "Mazouna", "Mediouna", "Mendes", "Ouarizane", "Ouled Aiche", "Ouled Sidi Mihoub", "Ramka", "Relizane", "Sidi Khettab", "Sidi M'Hamed Ben Aouda", "Sidi Saada", "Souk El Haad", "Yellel", "Zemmora"]
+        };
+
+        // ===== POPULATE WILAYAS =====
+        const wSel = document.getElementById('wilayaSelect');
+        Object.keys(ALGERIA).sort().forEach(w => {
+            const o = document.createElement('option'); o.value = w; o.textContent = w; wSel.appendChild(o);
+        });
+
+        function loadBaladias() {
+            const w = document.getElementById('wilayaSelect').value;
+            const bSel = document.getElementById('baladiaSelect');
+            bSel.innerHTML = '<option value="">— Choose a Baladiya —</option>';
+            if (w && ALGERIA[w]) {
+                bSel.disabled = false;
+                ALGERIA[w].forEach(b => { const o = document.createElement('option'); o.value = b; o.textContent = b; bSel.appendChild(o); });
+            } else { bSel.disabled = true; }
+        }
+
+        // ===== MODAL =====
+        let currentArticle = '';
+        function openModal(name, icon) {
+            currentArticle = name;
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalIcon').textContent = icon;
+            document.getElementById('modalSubtitle').textContent = 'Fill in your delivery details — ' + name;
+            document.getElementById('orderForm').style.display = '';
+            document.getElementById('orderSuccess').style.display = 'none';
+            document.getElementById('submitMsg').textContent = '';
+            // Reset
+            ['fullName', 'wilayaSelect', 'baladiaSelect', 'phone'].forEach(id => {
+                const el = document.getElementById(id); el.value = ''; if (el.tagName === 'SELECT') el.classList.remove('error');
+                document.getElementById('err' + id.charAt(0).toUpperCase() + id.slice(1).replace('Select', '').replace('Select', ''))?.classList.remove('show');
+            });
+            document.getElementById('baladiaSelect').disabled = true;
+            document.getElementById('orderModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            document.getElementById('orderModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        document.getElementById('storyModal').addEventListener('click', e => { if (e.target === e.currentTarget) { e.currentTarget.classList.remove('open'); document.body.style.overflow = ''; } });
+        document.getElementById('orderModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+        function showErr(id, show) {
+            const el = document.getElementById('err' + id); if (el) { show ? el.classList.add('show') : el.classList.remove('show'); }
+        }
+        function markField(id, error) {
+            const el = document.getElementById(id); if (el) { error ? el.classList.add('error') : el.classList.remove('error'); }
+        }
+
+        async function submitOrder() {
+            const name = document.getElementById('fullName').value.trim();
+            const wilaya = document.getElementById('wilayaSelect').value;
+            const baladia = document.getElementById('baladiaSelect').value;
+            const phone = document.getElementById('phone').value.trim();
+            const phoneRx = /^(05|06|07)\d{8}$/;
+
+            let valid = true;
+            [['Name', 'fullName', !name], ['Wilaya', 'wilayaSelect', !wilaya], ['Baladia', 'baladiaSelect', !baladia], ['Phone', 'phone', !phoneRx.test(phone)]].forEach(([err, field, bad]) => {
+                showErr(err, bad); markField(field, bad); if (bad) valid = false;
+            });
+            if (!valid) return;
+
+            const btn = document.getElementById('submitBtn');
+            const msg = document.getElementById('submitMsg');
+            btn.disabled = true; btn.textContent = 'Sending...';
+
+            try {
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    article: currentArticle,
+                    price: '3,700 DA',
+                    customer_name: name,
+                    wilaya: wilaya,
+                    baladia: baladia,
+                    phone: phone
+                });
+                document.getElementById('orderForm').style.display = 'none';
+                document.getElementById('confirmPhone').textContent = phone;
+                document.getElementById('orderSuccess').style.display = 'block';
+            } catch (err) {
+                msg.textContent = '⚠ Could not send order. Please try again or contact us directly.';
+                msg.style.color = '#e53';
+                btn.disabled = false; btn.textContent = '🛍 Place Order';
+            }
+        }
+
+        // ===== CURSOR =====
+        const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+        function animateRing() { rx += (mx - rx) * .12; ry += (my - ry) * .12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animateRing); }
+        animateRing();
+
+        // NAV
+        window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', scrollY > 60));
+
+        // REVEAL
+        const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .15 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        // TOAST
+        function showToast(m) {
+            const t = document.getElementById('toast'); t.textContent = m; t.style.transform = 'translateY(0)'; t.style.opacity = '1';
+            setTimeout(() => { t.style.transform = 'translateY(100px)'; t.style.opacity = '0'; }, 3000);
+        }
+
+        // SCROLL
+        function scrollToProducts() { document.getElementById('men').scrollIntoView({ behavior: 'smooth' }); }
+
+        // TESTIMONIALS
+        const testimonials = [
+            { quote: '"CEO hits different. Got my hoodie in 2 days and the quality is unreal for the price."', author: '— Yacine B., Alger' },
+            { quote: '"Finally an Algerian brand that gets the street culture. Every drop sells out for a reason."', author: '— Ryad K., Oran' },
+            { quote: '"The cargo jacket is clean. Wear it every day. Real quality, real price."', author: '— Salim M., Constantine' }
+        ];
+        let currentT = 0;
+        function setTestimonial(i) {
+            currentT = i;
+            const qt = document.getElementById('quoteText'), qa = document.getElementById('quoteAuthor');
+            qt.style.opacity = '0'; qa.style.opacity = '0';
+            setTimeout(() => { qt.textContent = testimonials[i].quote; qa.textContent = testimonials[i].author; qt.style.opacity = '1'; qa.style.opacity = '1'; }, 300);
+            document.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === i));
+        }
+        document.getElementById('quoteText').style.transition = 'opacity .3s';
+        document.getElementById('quoteAuthor').style.transition = 'opacity .3s';
+        setInterval(() => setTestimonial((currentT + 1) % 3), 5000);
+
+        // NEWSLETTER
+        function handleSubscribe() {
+            const v = document.getElementById('emailInput').value, m = document.getElementById('subMsg');
+            if (!v || !v.includes('@')) { m.textContent = 'Enter a valid email.'; m.style.color = '#e53'; return; }
+            m.textContent = '✦ You\'re in! Watch your inbox for the next drop.'; m.style.color = 'var(--yellow)';
+            document.getElementById('emailInput').value = '';
+        }
+    </script>
+</body>
+
+</html>
